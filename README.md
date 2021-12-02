@@ -1,6 +1,6 @@
 # hrm_system
 
-eureka-server port: 8761 \n
+eureka-server port: 8761
 gateway port: 8090
 auth-service port: 8081
 user-service port: 8082
