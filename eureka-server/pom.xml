@@ -23,13 +23,16 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-            <version>3.0.4</version>
+            <artifactId>spring-cloud-starter-config</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
         </dependency>
 
         <!-- TEST -->
@@ -46,7 +49,7 @@
                 <artifactId>spring-cloud-dependencies</artifactId>
                 <version>2020.0.4</version>
                 <type>pom</type>
-                <scope>runtime</scope>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
