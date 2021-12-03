@@ -12,6 +12,12 @@ Run auth-service (port:8081)<br/>
 Run user-service (port:8082)<br/>
 Run staffing-service (port:8083)<br/>
 
+## Services
+
+auth-service will be running on port 8081. Main goal is to head authentification and authorization of system users<br/>
+user-service will be running on port 8082. This service will deal with all operations related to users<br/>
+staffing-service will be running on port 8083. It will deal with staffing problems such as search/create a positions, open an interviews, etc.<br/>
+
 ## Technologies stack
 
 * Spring Boot
@@ -19,9 +25,3 @@ Run staffing-service (port:8083)<br/>
 * JPA
 * mySQL
 * Liquibase
-
-## Services
-
-auth-service will be running on port 8081. Main goal is to head authentification and authorization of system users<br/>
-user-service will be running on port 8082. This service will deal with all operations related to users<br/>
-staffing-service will be running on port 8083. It will deal with staffing problems such as search/create a positions, open an interviews, etc.<br/>
