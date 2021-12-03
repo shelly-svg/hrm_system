@@ -1,8 +1,8 @@
-### Human resources managing system
+# Human resources managing system
 
 ## Installation and running
 
-# Running the project
+### Running the project
 
 Clone this project
 Create an empty database
