@@ -1,4 +1,4 @@
-# Human resources managing system
+# Human resources management system
 
 ## Installation and running
 
