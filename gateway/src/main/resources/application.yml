@@ -1,13 +1,2 @@
 server:
   port: 8090
-eureka:
-  client:
-    eureka-server-port: 8761
-    service-url:
-      defaultZone: http://${eureka.instance.hostname}:${eureka.client.eureka-server-port}/eureka/
-  instance:
-    prefer-ip-address: false
-    hostname: localhost
-spring:
-  application:
-    name: gateway-api
