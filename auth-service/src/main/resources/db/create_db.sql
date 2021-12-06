@@ -13,15 +13,16 @@ USE `auth_db`;
 -- Table 'auth_db'.'user_'
 -- -----------------------------------------------------
 DROP TABLE IF EXISTS `auth_db`.`user_`;
-CREATE TABLE IF NOT EXISTS `user_`(
-                                      `id`			BIGINT,
-                                      `username` 		VARCHAR(50) 	NOT NULL	COLLATE utf8mb4_0900_as_cs,
-                                      `password_` 	VARCHAR(100) 	NOT NULL,
-                                      `status_` 		VARCHAR(30) 	NOT NULL	DEFAULT 'ACTIVE',
-                                      `role_` 		VARCHAR(30)		NOT NULL	DEFAULT 'USER',
-                                      CONSTRAINT `id_pk` PRIMARY KEY (`id`),
-                                      UNIQUE INDEX `id_uq` (`id` ASC) VISIBLE,
-                                      UNIQUE INDEX `username_uq` (`username` ASC) VISIBLE
+CREATE TABLE IF NOT EXISTS `user_`
+(
+    `id`        BIGINT,
+    `username`  VARCHAR(50)  NOT NULL COLLATE utf8mb4_0900_as_cs,
+    `password_` VARCHAR(100) NOT NULL,
+    `status_`   VARCHAR(30)  NOT NULL DEFAULT 'ACTIVE',
+    `role_`     VARCHAR(30)  NOT NULL DEFAULT 'USER',
+    CONSTRAINT `id_pk` PRIMARY KEY (`id`),
+    UNIQUE INDEX `id_uq` (`id` ASC) VISIBLE,
+    UNIQUE INDEX `username_uq` (`username` ASC) VISIBLE
 );
 
 SET SQL_MODE = @OLD_SQL_MODE;
