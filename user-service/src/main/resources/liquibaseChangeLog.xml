@@ -11,7 +11,7 @@
 
         <createTable tableName="skill">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true"/>
             </column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -22,7 +22,7 @@
 
         <createTable tableName="user_">
             <column name="id" type="BIGINT" autoIncrement="true">
-                <constraints primaryKey="true" nullable="false"/>
+                <constraints primaryKey="true"/>
             </column>
             <column name="first_name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
