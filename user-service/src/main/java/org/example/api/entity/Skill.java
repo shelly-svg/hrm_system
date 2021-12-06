@@ -18,7 +18,7 @@ public class Skill implements Serializable {
     private static final long serialVersionUID = -23483298423943223L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name", length = 50, nullable = false)

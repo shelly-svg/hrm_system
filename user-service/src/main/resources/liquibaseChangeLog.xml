@@ -10,20 +10,19 @@
     <changeSet author="Denys Tsebro" id="1">
 
         <createTable tableName="skill">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="skill"/>
         <addUniqueConstraint columnNames="id" constraintName="id_uq" tableName="skill"/>
 
         <createTable tableName="user_">
-            <column name="id" type="BIGINT">
-                <constraints nullable="false"/>
+            <column name="id" type="BIGINT" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="first_name" type="VARCHAR(50)">
                 <constraints nullable="false"/>
@@ -42,7 +41,6 @@
             </column>
         </createTable>
 
-        <addPrimaryKey columnNames="id" constraintName="PRIMARY" tableName="user_"/>
         <addUniqueConstraint columnNames="id" constraintName="id_uq" tableName="user_"/>
 
         <createTable tableName="user_details">
