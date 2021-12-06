@@ -8,6 +8,7 @@ eureka:
   instance:
     prefer-ip-address: false
     hostname: localhost
+
 spring:
   application:
     name: staffing-service
