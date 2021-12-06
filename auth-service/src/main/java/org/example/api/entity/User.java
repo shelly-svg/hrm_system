@@ -20,18 +20,18 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private long id;
 
-    @Column(name = "username", unique = true, nullable = false)
+    @Column(name = "username", length = 50, unique = true, nullable = false)
     private String username;
 
-    @Column(name = "password_", nullable = false)
+    @Column(name = "password_", length = 100, nullable = false)
     private String password;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "status_", nullable = false)
+    @Column(name = "status_", length = 30, nullable = false)
     private Status status;
 
     @Enumerated(value = EnumType.STRING)
-    @Column(name = "role_", nullable = false)
+    @Column(name = "role_", length = 30, nullable = false)
     private Role role;
 
 }
