@@ -1,6 +1,7 @@
 package org.example.api.entity;
 
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -24,6 +25,7 @@ public class User {
     private String username;
 
     @Column(name = "password_", length = 100, nullable = false)
+    @ToString.Exclude
     private String password;
 
     @Enumerated(value = EnumType.STRING)
