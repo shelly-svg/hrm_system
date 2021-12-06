@@ -15,7 +15,7 @@ USE `auth_db`;
 DROP TABLE IF EXISTS `auth_db`.`user_`;
 CREATE TABLE IF NOT EXISTS `user_`
 (
-    `id`        BIGINT       AUTO_INCREMENT,
+    `id`        BIGINT AUTO_INCREMENT,
     `username`  VARCHAR(50)  NOT NULL COLLATE utf8mb4_0900_as_cs,
     `password_` VARCHAR(100) NOT NULL,
     `status_`   VARCHAR(30)  NOT NULL DEFAULT 'ACTIVE',
