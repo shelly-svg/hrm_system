@@ -1,0 +1,174 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog logicalFilePath="db.0.1-init.init-changeSet.xml"
+                   xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.6.xsd">
+
+    <changeSet author="Denys Tsebro" id="1">
+
+        <createTable tableName="feedback">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="interview_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="soft_skills" type="VARCHAR(400)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="hard_skills" type="VARCHAR(400)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="strengths" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="weaknesses" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="additional_information" type="VARCHAR(400)"/>
+        </createTable>
+
+        <createTable tableName="interview">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="opportunity_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="time" type="datetime">
+                <constraints nullable="false"/>
+            </column>
+            <column name="details" type="VARCHAR(200)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="opportunity">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="position_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="candidate_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="status" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cv_file_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="cover_letter_file_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="position">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_function" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="work_format" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="english_level" type="VARCHAR(15)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="description" type="TEXT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="position_skills">
+            <column name="position_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="skill_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="level" type="VARCHAR(30)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="project">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" unique="true"/>
+            </column>
+            <column name="name" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="contact_id" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createTable tableName="project_skills">
+            <column name="project_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="skill_id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+        </createTable>
+
+        <createIndex indexName="feedback_interview_fk" tableName="feedback">
+            <column name="interview_id"/>
+        </createIndex>
+        <createIndex indexName="interview_opportunity_fk" tableName="interview">
+            <column name="opportunity_id"/>
+        </createIndex>
+        <createIndex indexName="opportunity_position_fk" tableName="opportunity">
+            <column name="position_id"/>
+        </createIndex>
+        <createIndex indexName="position_id_fk_idx" tableName="position_skills">
+            <column name="position_id"/>
+        </createIndex>
+        <createIndex indexName="position_project_fk" tableName="position">
+            <column name="project_id"/>
+        </createIndex>
+        <createIndex indexName="project_id_fk_idx" tableName="project_skills">
+            <column name="project_id"/>
+        </createIndex>
+        <createIndex indexName="skill_id_fk_idx" tableName="position_skills">
+            <column name="skill_id"/>
+        </createIndex>
+        <createIndex indexName="skill_id_fk_idx" tableName="project_skills">
+            <column name="skill_id"/>
+        </createIndex>
+
+        <addForeignKeyConstraint baseColumnNames="interview_id" baseTableName="feedback"
+                                 constraintName="feedback_interview_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id"
+                                 referencedTableName="interview" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="opportunity_id" baseTableName="interview"
+                                 constraintName="interview_opportunity_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id"
+                                 referencedTableName="opportunity" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="position_id" baseTableName="opportunity"
+                                 constraintName="opportunity_position_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id"
+                                 referencedTableName="position" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="position_id" baseTableName="position_skills"
+                                 constraintName="position_has_skill_position_fk" deferrable="false"
+                                 initiallyDeferred="false" onDelete="RESTRICT" onUpdate="RESTRICT"
+                                 referencedColumnNames="id" referencedTableName="position" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="position"
+                                 constraintName="position_project_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id"
+                                 referencedTableName="project" validate="true"/>
+        <addForeignKeyConstraint baseColumnNames="project_id" baseTableName="project_skills"
+                                 constraintName="project_skills_project_fk" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="id"
+                                 referencedTableName="project" validate="true"/>
+
+    </changeSet>
+
+</databaseChangeLog>
