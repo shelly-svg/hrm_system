@@ -19,12 +19,12 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/staffing_db?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/staffing_db_test?createDatabaseIfNotExist=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
-    change-log: classpath:liquibaseChangeLog.xml
+    change-log: classpath:db/changeLog-master.xml
 
 logging:
   charset:
