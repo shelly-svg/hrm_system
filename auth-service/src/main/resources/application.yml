@@ -25,7 +25,7 @@ spring:
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
   liquibase:
-    change-log: classpath:liquibaseChangeLog.xml
+    change-log: classpath:db/changeLog-master.xml
 
 logging:
   charset:
