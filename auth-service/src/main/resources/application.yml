@@ -30,3 +30,8 @@ spring:
 logging:
   charset:
     console: UTF-8
+
+jwt:
+  header: Authorization
+  secret: test
+  expiration: 600000
