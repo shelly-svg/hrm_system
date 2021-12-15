@@ -1,9 +1,10 @@
-package org.example.api.security;
+package org.example.api.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.api.constant.ApiConstants;
 import org.example.api.entity.User;
 import org.example.api.repository.UserRepository;
+import org.example.api.security.SecurityUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

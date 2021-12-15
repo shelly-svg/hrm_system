@@ -7,8 +7,8 @@ import org.example.api.dto.AuthenticationResponseDTO;
 import org.example.api.dto.AuthorizationDTO;
 import org.example.api.entity.User;
 import org.example.api.exception.JwtAuthenticationException;
-import org.example.api.repository.UserRepository;
 import org.example.api.security.JwtTokenResolver;
+import org.example.api.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -27,16 +27,16 @@ import javax.validation.Valid;
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
-    private final UserRepository userRepository;
+    private final UserService userService;
     private final JwtTokenResolver jwtTokenResolver;
 
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponseDTO> authenticate(@RequestBody @Valid AuthenticationDTO authDTO) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword()));
-        User user = userRepository.getUserByUsername(authDTO.getUsername())
+        User user = userService.getUserByUsername(authDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(ApiConstants.USER_DOES_NOT_EXIST_MESSAGE));
-        String token = jwtTokenResolver.createToken(authDTO.getUsername(), user.getRole().name());
+        String token = jwtTokenResolver.createToken(authDTO.getUsername(), user.getRole());
         return ResponseEntity.ok(new AuthenticationResponseDTO(authDTO.getUsername(), token));
     }
 
