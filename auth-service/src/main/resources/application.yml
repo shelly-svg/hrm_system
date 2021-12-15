@@ -32,6 +32,5 @@ logging:
     console: UTF-8
 
 jwt:
-  header: Authorization
-  secret: test
-  expiration: 600000
+  secret-key: my_secret
+  validity-in-minutes: 10

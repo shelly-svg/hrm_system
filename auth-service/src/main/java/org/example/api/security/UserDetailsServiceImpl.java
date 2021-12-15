@@ -1,6 +1,7 @@
 package org.example.api.security;
 
 import lombok.RequiredArgsConstructor;
+import org.example.api.constant.ApiConstants;
 import org.example.api.entity.User;
 import org.example.api.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.getUserByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User does not exist"));
+                .orElseThrow(() -> new UsernameNotFoundException(ApiConstants.USER_DOES_NOT_EXIST_MESSAGE));
         return SecurityUser.fromUser(user);
     }
 

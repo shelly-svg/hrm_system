@@ -7,7 +7,23 @@ public final class ApiConstants {
     public static final String USER_IS_BLOCKED_MESSAGE = "User is blocked";
     public static final String AUTHORIZATION_TOKEN_IS_MISSING_MESSAGE = "Authorization token is missing";
 
-    public static final String JWT_HANDLER_EXCEPTION_RESOLVER_BEAN = "jwtExceptionResolver";
+    public static final String USERNAME_INVALIDITY_MESSAGE = "Username must be 4 - 20 characters long";
+    public static final String USERNAME_IS_MANDATORY_MESSAGE = "Username is mandatory";
+    public static final String PASSWORD_INVALIDITY_MESSAGE = "Password must be 4 - 30 characters long";
+    public static final String PASSWORD_IS_MANDATORY_MESSAGE = "Password is mandatory";
+
+    public static final String TOKEN_IS_MANDATORY_MESSAGE = "Token is mandatory";
+    public static final String ROLE_IS_MANDATORY_MESSAGE = "Role is mandatory";
+
+    public static final String USER_DOES_NOT_EXIST_MESSAGE = "User does not exist";
+
+    public static final String USER_DOES_NOT_HAVE_ACCESS_MESSAGE = "This user does not have access to the chosen " +
+            "resource";
+    public static final String AUTH_TOKEN_IS_EXPIRED_MESSAGE = "Authorization token is expired";
+    public static final String AUTH_TOKEN_IS_INVALID_MESSAGE = "Authorization token is invalid";
+    public static final String AUTH_TOKEN_IS_MALFORMED_MESSAGE = "Authorization token is malformed";
+
+    public static final String ROLE_CLAIMS_FIELD = "role";
 
     private ApiConstants() {
         throw new UnsupportedOperationException();

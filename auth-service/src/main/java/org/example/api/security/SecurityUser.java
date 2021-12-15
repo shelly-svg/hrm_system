@@ -8,14 +8,15 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Data
 public class SecurityUser implements UserDetails {
 
     private final String username;
     private final String password;
-    private final List<SimpleGrantedAuthority> authorities;
+    private final Set<SimpleGrantedAuthority> authorities;
     private final boolean isActive;
 
     @Override
@@ -56,8 +57,7 @@ public class SecurityUser implements UserDetails {
     public static UserDetails fromUser(User user) {
         return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(),
                 user.getStatus().equals(Status.ACTIVE), user.getStatus().equals(Status.ACTIVE),
-                user.getStatus().equals(Status.ACTIVE), user.getStatus().equals(Status.ACTIVE),
-                user.getRole().getAuthorities());
+                user.getStatus().equals(Status.ACTIVE), user.getStatus().equals(Status.ACTIVE), new HashSet<>());
     }
 
 }
