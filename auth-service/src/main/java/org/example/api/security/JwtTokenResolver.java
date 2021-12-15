@@ -42,10 +42,18 @@ public class JwtTokenResolver {
                 .compact();
     }
 
+    /**
+     * Authorizes token and throws an exception if role stored at the token is not equal to the {@code role}
+     *
+     * @param token json web token
+     * @param role  role to check
+     * @throws JwtAuthenticationException if Role stored at the {@code token} is not equal to the {@code role};
+     * if {@code token} is malformed; if {@code token} is invalid; if {@code token} is expired
+     */
     public void authorize(String token, Role role) throws JwtAuthenticationException {
         try {
-            Jws<Claims> claimsJws = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
-            if (!role.name().equals(claimsJws.getBody().get(ApiConstants.ROLE_CLAIMS_FIELD, String.class))) {
+            Jws<Claims> tokenClaims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token);
+            if (!isRoleEqualsToStoredAtToken(role, tokenClaims)) {
                 throw new JwtAuthenticationException(ApiConstants.USER_DOES_NOT_HAVE_ACCESS_MESSAGE,
                         HttpStatus.FORBIDDEN);
             }
@@ -56,6 +64,10 @@ public class JwtTokenResolver {
         } catch (JwtException | IllegalArgumentException exception) {
             throw new JwtAuthenticationException(ApiConstants.AUTH_TOKEN_IS_MALFORMED_MESSAGE, HttpStatus.FORBIDDEN);
         }
+    }
+
+    private boolean isRoleEqualsToStoredAtToken(Role roleToCheck, Jws<Claims> tokenClaims) {
+        return roleToCheck.name().equals(tokenClaims.getBody().get(ApiConstants.ROLE_CLAIMS_FIELD, String.class));
     }
 
 }
