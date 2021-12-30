@@ -15,6 +15,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletResponse;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -30,16 +31,17 @@ public class JwtTokenResolver {
         validityInMinutes = jwtProperties.getValidityInMinutes();
     }
 
-    public String createToken(String username, Role role) {
+    public void resolveToken(HttpServletResponse response, String username, Role role) {
         Claims claims = Jwts.claims().setSubject(username);
         claims.put(ApiConstants.ROLE_CLAIMS_FIELD, role);
         Date now = new Date();
-        return Jwts.builder()
+        String token = Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
                 .setExpiration(Timestamp.valueOf(LocalDateTime.now().plusMinutes(validityInMinutes)))
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
+        response.addHeader(ApiConstants.AUTHORIZATION_TOKEN_HEADER_NAME, token);
     }
 
     /**
@@ -48,7 +50,8 @@ public class JwtTokenResolver {
      * @param token json web token
      * @param role  role to check
      * @throws JwtAuthenticationException if Role stored at the {@code token} is not equal to the {@code role};
-     * if {@code token} is malformed; if {@code token} is invalid; if {@code token} is expired
+     *                                    if {@code token} is malformed; if {@code token} is invalid; if {@code token
+     *                                    } is expired
      */
     public void authorize(String token, Role role) throws JwtAuthenticationException {
         try {

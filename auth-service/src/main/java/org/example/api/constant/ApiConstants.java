@@ -13,6 +13,7 @@ public final class ApiConstants {
     public static final String PASSWORD_INVALIDITY_MESSAGE = "Password must be 4 - 30 characters long";
     public static final String PASSWORD_IS_MANDATORY_MESSAGE = "Password is mandatory";
 
+    public static final String AUTHORIZATION_TOKEN_HEADER_NAME = "Authorization";
     public static final String AUTHORIZATION_DTO_TOKEN_FIELD = "token";
     public static final String AUTHORIZATION_DTO_ROLE_FIELD = "role";
     public static final String TOKEN_IS_MANDATORY_MESSAGE = "Token is mandatory";
