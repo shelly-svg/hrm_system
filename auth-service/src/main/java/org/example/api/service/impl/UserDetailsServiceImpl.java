@@ -1,4 +1,4 @@
-package org.example.api.service;
+package org.example.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.example.api.constant.ApiConstants;

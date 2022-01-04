@@ -26,6 +26,8 @@ public final class ApiConstants {
     public static final String AUTH_TOKEN_IS_EXPIRED_MESSAGE = "Authorization token is expired";
     public static final String AUTH_TOKEN_IS_INVALID_MESSAGE = "Authorization token is invalid";
     public static final String AUTH_TOKEN_IS_MALFORMED_MESSAGE = "Authorization token is malformed";
+    public static final String AUTH_TOKEN_IS_MISSING_MESSAGE = "Authorization token is missing";
+    public static final String AUTH_TOKEN_IS_BLACKLISTED_MESSAGE = "Authorization token is blacklisted";
 
     public static final String ROLE_CLAIMS_FIELD = "role";
 

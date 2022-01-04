@@ -9,6 +9,7 @@ import org.example.api.exception.JwtAuthenticationException;
 import org.example.api.security.JwtTokenResolver;
 import org.example.api.service.UserService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
@@ -30,21 +32,27 @@ public class AuthController {
     private final UserService userService;
     private final JwtTokenResolver jwtTokenResolver;
 
-    @PostMapping("/authenticate")
+    @PostMapping(value = "/authenticate", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> authenticate(@RequestBody @Valid AuthenticationDTO authDTO,
                                                    HttpServletResponse response) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(authDTO.getUsername(), authDTO.getPassword()));
         User user = userService.getUserByUsername(authDTO.getUsername())
                 .orElseThrow(() -> new UsernameNotFoundException(ApiConstants.USER_DOES_NOT_EXIST_MESSAGE));
-        jwtTokenResolver.resolveToken(response, authDTO.getUsername(), user.getRole());
+        jwtTokenResolver.resolveAuthentication(response, authDTO.getUsername(), user.getRole());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PostMapping("/authorize")
-    public ResponseEntity<HttpStatus> authorize(@RequestBody @Valid AuthorizationDTO authorizationDTO)
-            throws JwtAuthenticationException {
-        jwtTokenResolver.authorize(authorizationDTO.getToken(), authorizationDTO.getRole());
+    @PostMapping(value = "/authorize", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<HttpStatus> authorize(@RequestBody @Valid AuthorizationDTO authorizationDTO,
+                                                HttpServletResponse response) throws JwtAuthenticationException {
+        jwtTokenResolver.resolveAuthorization(response, authorizationDTO.getToken(), authorizationDTO.getRole());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping(value = "/logout")
+    public ResponseEntity<HttpStatus> logout(HttpServletRequest request) throws JwtAuthenticationException {
+        jwtTokenResolver.resolveLogout(request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
