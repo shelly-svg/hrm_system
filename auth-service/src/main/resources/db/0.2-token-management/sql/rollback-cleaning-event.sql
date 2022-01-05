@@ -1,0 +1,1 @@
+DROP EVENT IF EXISTS `token_cleaner`;
