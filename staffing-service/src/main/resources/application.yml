@@ -36,3 +36,5 @@ application:
     max-entities-per-page: 50
     default-page: 0
     default-entities-per-page: 10
+  files:
+    file-holder-path: ${STAFFING_SERVICE_FILE_HOLDER_PATH}

@@ -1,5 +1,6 @@
 package org.example.api.exception;
 
+import org.example.api.constant.ApiConstants;
 import org.example.api.dto.ErrorDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,6 +41,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         logger.warn(exception.getMessage());
         return ResponseEntity.badRequest()
                 .body(new ErrorDTO(request.getDescription(false), LocalDateTime.now(), exception.getErrors()));
+    }
+
+    @ExceptionHandler(ProjectNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleProjectNotFoundException(ProjectNotFoundException exception,
+                                                                   WebRequest webRequest) {
+        logger.warn(exception.getMessage());
+        return ResponseEntity.badRequest()
+                .body(new ErrorDTO(webRequest.getDescription(false), LocalDateTime.now(),
+                        Collections.singletonMap(ApiConstants.PROJECT_ID_FORM_PARAM, exception.getMessage())));
     }
 
 }
