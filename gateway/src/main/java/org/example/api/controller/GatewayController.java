@@ -25,6 +25,7 @@ public class GatewayController {
     private final AuthClient authClient;
     private final ObjectMapper objectMapper;
 
+    //TODO rework it
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<HttpStatus> login() throws JsonProcessingException {
         Map<String, String> headers = new HashMap<>();
