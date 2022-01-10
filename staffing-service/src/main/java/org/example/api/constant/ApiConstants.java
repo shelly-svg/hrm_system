@@ -23,6 +23,7 @@ public final class ApiConstants {
     public static final String DESCRIPTION_IS_MANDATORY_MESSAGE = "Description is mandatory";
 
     public static final String CANNOT_FIND_PROJECT_MESSAGE = "Cannot find project with such id: ";
+    public static final String CANNOT_FIND_POSITION_MESSAGE = "Cannot find position with such id: ";
 
     private ApiConstants() {
         throw new UnsupportedOperationException();
