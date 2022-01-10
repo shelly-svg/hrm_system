@@ -1,11 +1,9 @@
 package org.example.api.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
 import org.example.api.client.AuthClient;
-import org.example.api.dto.AuthDTO;
+import org.example.api.constant.ApiConstants;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -18,21 +16,23 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("api/v1/gateway")
+@RequestMapping("/gateway/v1")
 @RequiredArgsConstructor
 public class GatewayController {
 
     private final AuthClient authClient;
-    private final ObjectMapper objectMapper;
 
-    //TODO rework it
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> login() throws JsonProcessingException {
+    public ResponseEntity<HttpStatus> login(String loginFormInJson) {
         Map<String, String> headers = new HashMap<>();
-        headers.put("Content-Type", MediaType.APPLICATION_JSON_VALUE);
-        Response response = authClient.login(headers, objectMapper.writeValueAsString(new AuthDTO("admin", "admin")));
+        headers.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+
+        Response response = authClient.login(headers, loginFormInJson);
         HttpHeaders httpHeaders = new HttpHeaders();
-        httpHeaders.set("Authorization", response.headers().get("Authorization").stream().findFirst().orElseThrow());
+        if (response.status() == HttpStatus.OK.value()) {
+            httpHeaders.set(ApiConstants.AUTH_TOKEN_HEADER_NAME,
+                    response.headers().get(ApiConstants.AUTH_TOKEN_HEADER_NAME).stream().findFirst().orElseThrow());
+        }
         return ResponseEntity.status(response.status()).headers(httpHeaders).build();
     }
 
