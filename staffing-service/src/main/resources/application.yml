@@ -19,7 +19,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/staffing_db_test?createDatabaseIfNotExist=true
+    url: jdbc:mysql://localhost:3306/staffing_db?createDatabaseIfNotExist=true
     username: root
     password: root
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -29,3 +29,12 @@ spring:
 logging:
   charset:
     console: UTF-8
+
+application:
+  pagination:
+    min-entities-per-page: 5
+    max-entities-per-page: 50
+    default-page: 0
+    default-entities-per-page: 10
+  files:
+    file-holder-path: ${STAFFING_SERVICE_FILE_HOLDER_PATH}
