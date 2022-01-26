@@ -1,7 +1,9 @@
 package org.example.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.api.dto.CreateProjectDTO;
 import org.example.api.entity.Project;
+import org.example.api.mapper.ProjectMapper;
 import org.example.api.repository.ProjectRepository;
 import org.example.api.service.ProjectService;
 import org.springframework.data.domain.PageRequest;
@@ -15,6 +17,7 @@ import java.util.Optional;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectRepository projectRepository;
+    private final ProjectMapper projectMapper;
 
     @Override
     public Optional<Project> getById(Long projectId) {
@@ -27,8 +30,8 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project create(Project projectToCreate) {
-        return projectRepository.saveAndFlush(projectToCreate);
+    public Project create(CreateProjectDTO createProjectDTO) {
+        return projectRepository.saveAndFlush(projectMapper.toProject(createProjectDTO));
     }
 
 }

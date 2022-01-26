@@ -7,7 +7,7 @@ public final class ApiConstants {
     public static final String ENTITIES_PER_PAGE_REQUEST_PARAM = "entitiesPerPage";
     public static final String PROJECT_ID_FORM_PARAM = "projectId";
 
-    public static final String PAGE_IS_INVALID_MESSAGE = "Page number must be higher than zero";
+    public static final String PAGE_IS_INVALID_MESSAGE = "Page number must be zero or higher";
     public static final String ENTITIES_PER_PAGE_IS_INVALID_MESSAGE = "Entities per page must be higher than %s and " +
             "below %s";
 

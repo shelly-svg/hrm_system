@@ -1,8 +1,13 @@
 package org.example.api.service.impl;
 
 import lombok.RequiredArgsConstructor;
+import org.example.api.constant.ApiConstants;
+import org.example.api.dto.CreatePositionDTO;
 import org.example.api.entity.Position;
+import org.example.api.exception.ProjectNotFoundException;
+import org.example.api.mapper.PositionMapper;
 import org.example.api.repository.PositionRepository;
+import org.example.api.repository.ProjectRepository;
 import org.example.api.service.PositionService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -15,6 +20,8 @@ import java.util.Optional;
 public class PositionServiceImpl implements PositionService {
 
     private final PositionRepository positionRepository;
+    private final ProjectRepository projectRepository;
+    private final PositionMapper positionMapper;
 
     @Override
     public Optional<Position> getById(long positionId) {
@@ -27,7 +34,11 @@ public class PositionServiceImpl implements PositionService {
     }
 
     @Override
-    public Position create(Position positionToCreate) {
+    public Position create(CreatePositionDTO createPositionDTO) throws ProjectNotFoundException {
+        Position positionToCreate = positionMapper.toPosition(createPositionDTO);
+        positionToCreate.setProject(projectRepository.findById(createPositionDTO.getProjectId())
+                .orElseThrow(() -> new ProjectNotFoundException(
+                        ApiConstants.CANNOT_FIND_PROJECT_MESSAGE + createPositionDTO.getProjectId())));
         return positionRepository.saveAndFlush(positionToCreate);
     }
 

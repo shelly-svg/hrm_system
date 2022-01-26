@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
-public class ProjectDTO {
+public class CreateProjectDTO {
 
     @Size(max = 50, message = ApiConstants.PROJECT_NAME_SIZE_IS_INVALID_MESSAGE)
     @NotNull(message = ApiConstants.PROJECT_NAME_IS_MANDATORY_MESSAGE)
@@ -16,7 +16,6 @@ public class ProjectDTO {
     private String name;
 
     @NotNull(message = ApiConstants.CONTACT_ID_IS_MANDATORY_MESSAGE)
-    @NotEmpty(message = ApiConstants.CONTACT_ID_IS_MANDATORY_MESSAGE)
-    private long contactId;
+    private Long contactId;
 
 }

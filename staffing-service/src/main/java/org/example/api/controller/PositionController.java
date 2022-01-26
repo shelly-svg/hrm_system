@@ -2,15 +2,10 @@ package org.example.api.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.example.api.constant.ApiConstants;
-import org.example.api.constant.PaginationProperties;
-import org.example.api.dto.PositionDTO;
+import org.example.api.dto.CreatePositionDTO;
 import org.example.api.entity.Position;
-import org.example.api.exception.PaginationParamsIsInvalidException;
 import org.example.api.exception.ProjectNotFoundException;
-import org.example.api.mapper.PositionMapper;
 import org.example.api.service.PositionService;
-import org.example.api.service.ProjectService;
-import org.example.api.validator.PaginationValidator;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -23,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 
 @RestController
@@ -32,11 +29,14 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PositionController {
 
-    private final ProjectService projectService;
+    private static final int MIN_ENTITIES_PER_PAGE = 5;
+    private static final int MAX_ENTITIES_PER_PAGE = 50;
+    private static final String DEFAULT_PAGE = "0";
+    private static final String DEFAULT_ENTITIES_PER_PAGE = "10";
+    private static final String ENTITIES_PER_PAGE_IS_INVALID_MESSAGE = "Entities per page must be higher than 4 and " +
+            "lower than 51";
+
     private final PositionService positionService;
-    private final PaginationValidator paginationValidator;
-    private final PaginationProperties paginationProperties;
-    private final PositionMapper positionMapper;
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Position> getById(@PathVariable(ApiConstants.ID_PATH_PARAM) long positionId) {
@@ -46,27 +46,19 @@ public class PositionController {
 
     @GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<List<Position>> getAll(
-            @RequestParam(value = ApiConstants.PAGE_REQUEST_PARAM, required = false) Integer page,
-            @RequestParam(value = ApiConstants.ENTITIES_PER_PAGE_REQUEST_PARAM, required = false) Integer entitiesPerPage)
-            throws PaginationParamsIsInvalidException {
-        if (Objects.isNull(page)) {
-            page = paginationProperties.getDefaultPage();
-        }
-        if (Objects.isNull(entitiesPerPage)) {
-            entitiesPerPage = paginationProperties.getDefaultEntitiesPerPage();
-        }
-        paginationValidator.validate(page, entitiesPerPage);
+            @RequestParam(value = ApiConstants.PAGE_REQUEST_PARAM, required = false, defaultValue = DEFAULT_PAGE)
+            @PositiveOrZero(message = ApiConstants.PAGE_IS_INVALID_MESSAGE) Integer page,
+            @RequestParam(value = ApiConstants.ENTITIES_PER_PAGE_REQUEST_PARAM, required = false,
+                    defaultValue = DEFAULT_ENTITIES_PER_PAGE)
+            @Min(value = MIN_ENTITIES_PER_PAGE, message = ENTITIES_PER_PAGE_IS_INVALID_MESSAGE)
+            @Max(value = MAX_ENTITIES_PER_PAGE, message = ENTITIES_PER_PAGE_IS_INVALID_MESSAGE) Integer entitiesPerPage) {
         return ResponseEntity.ok(positionService.getAll(page, entitiesPerPage));
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Position> create(@RequestBody @Valid PositionDTO positionDTO)
+    public ResponseEntity<Position> create(@RequestBody @Valid CreatePositionDTO createPositionDTO)
             throws ProjectNotFoundException {
-        Position positionToCreate = positionMapper.extract(positionDTO);
-        positionToCreate.setProject(projectService.getById(positionDTO.getProjectId())
-                .orElseThrow(() -> new ProjectNotFoundException(
-                        ApiConstants.CANNOT_FIND_PROJECT_MESSAGE + positionDTO.getProjectId())));
-        return new ResponseEntity<>(positionService.create(positionToCreate), HttpStatus.CREATED);
+        return new ResponseEntity<>(positionService.create(createPositionDTO), HttpStatus.CREATED);
     }
 
 }

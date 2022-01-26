@@ -24,4 +24,20 @@ public interface FileService {
      */
     String saveCoverLetter(MultipartFile coverLetter, long positionId, long candidateId);
 
+    /**
+     * Returns true if a cv for the opportunity with {@code opportunityId} is present on the file holder
+     *
+     * @param opportunityId id of the opportunity
+     * @return true if a cv for the opportunity with {@code opportunityId} is present on the file holder
+     */
+    boolean isCvPresent(long opportunityId);
+
+    /**
+     * Returns true if a cover letter for the opportunity with {@code opportunityId} is present on the file holder
+     *
+     * @param opportunityId id of the opportunity
+     * @return true if a cover letter for the opportunity with {@code opportunityId} is present on the file holder
+     */
+    boolean isCoverLetterPresent(long opportunityId);
+
 }
